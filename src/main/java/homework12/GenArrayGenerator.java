@@ -1,9 +1,6 @@
 package homework12;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GenArrayGenerator<T> {
