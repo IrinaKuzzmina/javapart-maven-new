@@ -22,96 +22,102 @@ import static homework16.Gender.MAN;
 public class SubscriberDemo {
 
 
-
-    private static String [] firstNamesMen ={"Петя"};
-    private static String [] firstNamesWomen ={"Maша"};
-    private static String [] lastNamesMen ={"Иванов"};
-    private static String [] lastNamesWomen ={"Петрова"};
-
-
-
-    private static Random rand =  new Random();
+    private static Random rand = new Random();
     private static long id = 1L;
 
     // TODO
     private static String txt = "subscribers.txt";
     private static String xls = "subscribers.xlsx";
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
+
+
 //
 ////        OutputStream os = new FileOutputStream("");
 ////        OutputStreamWriter osw = new OutputStreamWriter(os);
 //        try (FileWriter fw = new FileWriter(txt)) {
-//            System.out.println("***Generate***");
-//            Subscriber[] array =
-//                    Stream
-//                            .generate(SubscriberDemo::nextSubscriber)
-////                .generate(()->SubscriberDemo.nextSubscriber()) // можно так
-////                .generate(()->{
-////                    return SubscriberDemo.nextSubscriber();
-////                }) // можно и так
-//                            .limit(100)
-//                            .filter(SubscriberDemo.distinctBy(Subscriber::getPhoneNumber))
-//                            .peek(System.out::println)
-////                            .peek(ConsumerExceptional.wrap(s->fw.write(s.toString())))
-//                            .peek(s->{
-//                                try {
-//                                    fw.write(s.toString()+"\n");
-//                                } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            })
-//                            .toArray(Subscriber[]::new);
-//            System.out.println("***Finish***");
+        System.out.println("***Generate***");
+        Subscriber[] array =
+                Stream
+                        .generate(SubscriberDemo::nextSubscriber)
+//                .generate(()->SubscriberDemo.nextSubscriber()) // можно так
+//                .generate(()->{
+//                    return SubscriberDemo.nextSubscriber();
+//                }) // можно и так
+                        .limit(100)
+//                        .filter(SubscriberDemo.distinctBy(Subscriber::getPhoneNumber))
+                        .peek(System.out::println)
+//                            .peek(ConsumerExceptional.wrap(s->fw.write(s.toString())))
+//                        .peek(s -> {
+//                            try {
+//                                fw.write(s.toString() + "\n");
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        })
+                        .toArray(Subscriber[]::new);
+        System.out.println("***Finish***");
+        ReaderWriter.writeToExcel(array);
+        System.out.println("****Printing Map :");
+        Map <Long, Subscriber> mapOfSubscribers = ReaderWriter.readFromExcelToMap();
+        System.out.println(mapOfSubscribers);
+        ReaderWriter.writeToTxt(mapOfSubscribers);
+
+//        List<Subscriber> list = new ArrayList<>(Arrays.asList(array));
 //
-//            List<Subscriber> list = new ArrayList<>(Arrays.asList(array));
+//        Arrays.sort(array);
+//        System.out.println(Arrays.toString(array));
+
+//    } catch(Exception e)
 //
-//            Arrays.sort(array);
-//            System.out.println(Arrays.toString(array));
-//
-//            list.sort(Comparator.comparingInt(Subscriber::getAge));
-////        list.sort((s1, s2)-> Integer.compare(s1.getAge(), s2.getAge()));
-//            System.out.println(list);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+//    {
+//        e.printStackTrace();
+    }
+
+
 
     private static Subscriber nextSubscriber() {
         long nextId = id;
 //        id = id + rand.nextInt(100);
         id++;
-        Subscriber newSubscriber  = generateFullNameWithGender();
+        Subscriber newSubscriber = generateFullNameWithGender();
         newSubscriber.setId(nextId);
         newSubscriber.setAge(generateAge());
-        newSubscriber.setPhoneNumber(generatePhoneNumber()); ;
+        newSubscriber.setPhoneNumber(generatePhoneNumber());
+        ;
         return newSubscriber;
     }
 
-    private static Subscriber generateFullNameWithGender(){
-        Subscriber newSubscriber  = new Subscriber();
-        if (rand.nextBoolean()==true){
-        int randomNumber = rand.nextInt(firstNamesMen .length);
-        newSubscriber.setFirstName(firstNamesMen[randomNumber]);
-        randomNumber = rand.nextInt(lastNamesMen .length);
-        newSubscriber.setLastName(lastNamesMen[randomNumber]);
-        newSubscriber.setGender(Gender.MAN.getGender());
-}else {
-            int randomNumber1 = rand.nextInt(firstNamesWomen .length);
-        newSubscriber.setFirstName(firstNamesWomen[randomNumber1]);
-            randomNumber1 = rand.nextInt(lastNamesWomen .length);
-        newSubscriber.setLastName(lastNamesWomen[randomNumber1]);
-        newSubscriber.setGender(Gender.WOMAN.getGender());
+    private static Subscriber generateFullNameWithGender() {
+
+        String[] firstNamesMen = ReaderWriter.readToArray("мужские имена.txt");
+        String[] firstNamesWomen = ReaderWriter.readToArray("женские имена.txt");
+        String[] lastNamesMen = ReaderWriter.readToArray("мужские фамилии.txt");
+        String[] lastNamesWomen = ReaderWriter.readToArray("женские фамилии.txt");
+
+        Subscriber newSubscriber = new Subscriber();
+
+        if (rand.nextBoolean() == true) {
+            int randomNumber = rand.nextInt(firstNamesMen.length);
+            newSubscriber.setFirstName(firstNamesMen[randomNumber]);
+            randomNumber = rand.nextInt(lastNamesMen.length);
+            newSubscriber.setLastName(lastNamesMen[randomNumber]);
+            newSubscriber.setGender(Gender.MAN.getGender());
+        } else {
+            int randomNumber1 = rand.nextInt(firstNamesWomen.length);
+            newSubscriber.setFirstName(firstNamesWomen[randomNumber1]);
+            randomNumber1 = rand.nextInt(lastNamesWomen.length);
+            newSubscriber.setLastName(lastNamesWomen[randomNumber1]);
+            newSubscriber.setGender(Gender.WOMAN.getGender());
         }
         return newSubscriber;
     }
 
 
-
-    public static int generateAge(){
+    public static int generateAge() {
         int lowerLimit = 18;
         int upperLimit = 60;
-        return rand.nextInt(upperLimit-lowerLimit)+lowerLimit;
+        return rand.nextInt(upperLimit - lowerLimit) + lowerLimit;
     }
 
     public static String generatePhoneNumber() {
@@ -128,8 +134,8 @@ public class SubscriberDemo {
 //            last = 5;
 
         long phoneNumber =
-                firstThreeNumbers*1_000_0000L + // двигаем влево на 7 разрядов
-                        middleDigits*10 + // умножаем на 10, чтобы сдвинуть влево на один разряд
+                firstThreeNumbers * 1_000_0000L + // двигаем влево на 7 разрядов
+                        middleDigits * 10 + // умножаем на 10, чтобы сдвинуть влево на один разряд
                         lastDigit; // 0 или 5
 
         return Long.toString(phoneNumber);
@@ -140,9 +146,9 @@ public class SubscriberDemo {
 
         return t -> set.add(keyExtractor.apply(t));
     }
-
-    public static void main(String[] args) {
-        Subscriber subscriber = nextSubscriber();
-        System.out.println(subscriber.toString());
-    }
+//
+//    public static void main(String[] args) {
+//        System.out.println(nextSubscriber().toString());
+//
+//    }
 }
