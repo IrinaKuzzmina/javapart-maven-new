@@ -76,7 +76,7 @@ public class SubscriberDemo {
 
 
 
-    private static Subscriber nextSubscriber() {
+    public static Subscriber nextSubscriber() {
         long nextId = id;
 //        id = id + rand.nextInt(100);
         id++;
@@ -84,16 +84,15 @@ public class SubscriberDemo {
         newSubscriber.setId(nextId);
         newSubscriber.setAge(generateAge());
         newSubscriber.setPhoneNumber(generatePhoneNumber());
-        ;
         return newSubscriber;
     }
 
     private static Subscriber generateFullNameWithGender() {
 
-        String[] firstNamesMen = ReaderWriter.readToArray("мужские имена.txt");
-        String[] firstNamesWomen = ReaderWriter.readToArray("женские имена.txt");
-        String[] lastNamesMen = ReaderWriter.readToArray("мужские фамилии.txt");
-        String[] lastNamesWomen = ReaderWriter.readToArray("женские фамилии.txt");
+        String[] firstNamesMen = ReaderWriter.readToArray(PropertyReader.readProperty("male.firstnames"));
+        String[] firstNamesWomen = ReaderWriter.readToArray(PropertyReader.readProperty("female.firstnames"));
+        String[] lastNamesMen = ReaderWriter.readToArray(PropertyReader.readProperty("male.lastnames"));
+        String[] lastNamesWomen = ReaderWriter.readToArray(PropertyReader.readProperty("female.lastnames"));
 
         Subscriber newSubscriber = new Subscriber();
 
@@ -146,9 +145,14 @@ public class SubscriberDemo {
 
         return t -> set.add(keyExtractor.apply(t));
     }
-//
-//    public static void main(String[] args) {
-//        System.out.println(nextSubscriber().toString());
-//
-//    }
+
+    public static Subscriber [] generateListSubsribers(int number){
+        Subscriber[] array =
+                Stream
+                        .generate(SubscriberDemo::nextSubscriber)
+                        .limit(number)
+                        .peek(System.out::println)
+                        .toArray(Subscriber[]::new);
+        return array;
+    }
 }

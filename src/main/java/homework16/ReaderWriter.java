@@ -54,7 +54,7 @@ public class ReaderWriter {
             cellGender.setCellValue(array[i].getGender());
         }
 
-        try (FileOutputStream out = new FileOutputStream(new File("d:/Practice/javapart-maven/subscribers.xlsx"))) {
+        try (FileOutputStream out = new FileOutputStream(new File(PropertyReader.readProperty("subscriber.exc")))) {
             workbook.write(out);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class ReaderWriter {
 
     public static Map<Long, Subscriber> readFromExcelToMap() {
         Map<Long, Subscriber> mapOfSubscribers = new HashMap<>();
-        File file = new File("d:/Practice/javapart-maven/subscribers.xlsx");
+        File file = new File(PropertyReader.readProperty("subscriber.exc"));
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(file))) {
             XSSFSheet sheet = workbook.getSheet("Subscibers");
@@ -90,7 +90,7 @@ public class ReaderWriter {
 
     public static void writeToTxt(Map<Long, Subscriber> map) {
         try {
-            FileWriter fw = new FileWriter("subscribers.txt");
+            FileWriter fw = new FileWriter(PropertyReader.readProperty("subscriber.txt"));
             PrintWriter pw = new PrintWriter(fw);
             for (int i = 1; i < map.size(); i++) {
                 Long index = Long.valueOf(i);
