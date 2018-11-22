@@ -14,6 +14,14 @@ public class Subscriber implements Comparable<Subscriber> {
 
     }
 
+    public Subscriber(Long id, String firstName, String lastName, int age, String gender) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
+    }
+
     public Subscriber(Long id, String firstName, String lastName, int age, String phoneNumber, String gender) {
         this.id = id;
         this.firstName = firstName;
@@ -22,6 +30,7 @@ public class Subscriber implements Comparable<Subscriber> {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
     }
+
 
     @Override
     public int compareTo (Subscriber otherSubscriber) {
