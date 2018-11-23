@@ -3,7 +3,9 @@ package homework18;
 import homework16.PropertyReader;
 import homework16.Subscriber;
 import homework16.SubscriberDemo;
+import homework18.dao.OperatorDao;
 import homework18.dao.SubscriberDao;
+import homework18.dao.jdbc.OperatorDaoImpl;
 import homework18.dao.jdbc.SubscriberDaoImpl;
 
 import java.sql.SQLException;
@@ -65,15 +67,37 @@ public class Demo {
 //        System.out.println(allSubscribers);
 
         //Найти subsriber по id
-        SubscriberDao subsDao = null;
-        Subscriber foundSubscriber=null;
+//        SubscriberDao subsDao = null;
+////        Subscriber foundSubscriber=null;
+////        try {
+////            subsDao = new SubscriberDaoImpl(PropertyReader.readProperty("jdbc.url"));
+////            foundSubscriber = subsDao.findById(5);
+////            System.out.println();
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////        }
+////        System.out.println(foundSubscriber.toString());
+
+        //добавить operator
+//        OperatorDao operDao = null;
+//        Operator operator =  new Operator(4L, "MTS", "ул.Хмельницкого 8");
+//        try {
+//            operDao = new OperatorDaoImpl(PropertyReader.readProperty("jdbc.url"));
+//            operDao.save(operator);
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+        ////удалить
+        OperatorDao operDao = null;
+        Operator operator = new Operator(4L, "MTS", "ул.Хмельницкого 8");
         try {
-            subsDao = new SubscriberDaoImpl(PropertyReader.readProperty("jdbc.url"));
-            foundSubscriber = subsDao.findById(5);
-            System.out.println();
+            operDao = new OperatorDaoImpl(PropertyReader.readProperty("jdbc.url"));
+            operDao.remove(operator);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(foundSubscriber.toString());
-        }
     }
+}

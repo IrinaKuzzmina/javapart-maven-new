@@ -22,6 +22,12 @@ public class Operator {
         this.phoneNumbers = phoneNumbers;
     }
 
+    public Operator(long operatorId, String name, String address) {
+        this.operatorId = operatorId;
+        this.name = name;
+        this.address = address;
+    }
+
     public Operator(long operatorId, String name, String address, BigDecimal fee, List<String> phoneNumbers) {
         this.operatorId = operatorId;
         this.name = name;
