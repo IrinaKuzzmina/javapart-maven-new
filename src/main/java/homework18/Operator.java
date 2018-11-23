@@ -145,8 +145,6 @@ public class Operator {
             }
             operator = new Operator(id, name, number);
         }
-
-
         return operator;
     }
 
